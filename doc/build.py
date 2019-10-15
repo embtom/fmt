@@ -7,16 +7,6 @@ from subprocess import check_call, check_output, CalledProcessError, Popen, PIPE
 
 versions = ['1.0.0', '1.1.0', '2.0.0', '3.0.2', '4.0.0', '4.1.0', '5.0.0', '5.1.0', '5.2.0', '5.2.1', '5.3.0', '6.0.0']
 
-def create_build_env(dirname='virtualenv'):
-  # Create virtualenv.
-  if not os.path.exists(dirname):
-    check_call(['virtualenv', dirname])
-  import sysconfig
-  scripts_dir = os.path.basename(sysconfig.get_path('scripts'))
-  activate_this_file = os.path.join(dirname, scripts_dir, 'activate_this.py')
-  with open(activate_this_file) as f:
-    exec(f.read(), dict(__file__=activate_this_file))
- 
 def build_docs(version='dev', **kwargs):
   doc_dir = kwargs.get('doc_dir', os.path.dirname(os.path.realpath(__file__)))
   work_dir = kwargs.get('work_dir', '.')
@@ -79,5 +69,4 @@ def build_docs(version='dev', **kwargs):
   return html_dir
 
 if __name__ == '__main__':
-  create_build_env()
   build_docs(sys.argv[1])
