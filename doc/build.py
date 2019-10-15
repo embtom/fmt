@@ -96,6 +96,7 @@ def build_docs(version='dev', **kwargs):
                           "FMT_STRING_ALIAS=1" \
                           "FMT_ENABLE_IF(B)="
       EXCLUDE_SYMBOLS   = fmt::internal::* StringValue write_str
+      FULL_PATH_NAMES   = NO
     '''.format(include_dir, doxyxml_dir).encode('UTF-8'))
   if p.returncode != 0:
     raise CalledProcessError(p.returncode, cmd)
