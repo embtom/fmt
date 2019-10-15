@@ -55,17 +55,6 @@ def build_docs(version='dev', **kwargs):
               '-Dversion=' + version, '-Drelease=' + version,
               '-Aversion=' + version, '-Aversions=' + ','.join(main_versions),
               '-b', 'html', doc_dir, html_dir])
-  try:
-    check_call(['lessc', '--clean-css',
-                '--include-path=' + os.path.join(doc_dir, 'bootstrap'),
-                os.path.join(doc_dir, 'fmt.less'),
-                os.path.join(html_dir, '_static', 'fmt.css')])
-  except OSError as e:
-    if e.errno != errno.ENOENT:
-      raise
-    print('lessc not found; make sure that Less (http://lesscss.org/) ' +
-          'is installed')
-    sys.exit(1)
   return html_dir
 
 if __name__ == '__main__':
