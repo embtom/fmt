@@ -247,8 +247,10 @@ if (FMT_INSTALL)
   install(TARGETS ${INSTALL_TARGETS} EXPORT ${targets_export_name}
           DESTINATION ${FMT_LIB_DIR})
 
-  install(FILES $<TARGET_PDB_FILE:${INSTALL_TARGETS}>
-          DESTINATION ${FMT_LIB_DIR} OPTIONAL)
+  if (WIN32)
+    install(FILES $<TARGET_PDB_FILE:${INSTALL_TARGETS}>
+           DESTINATION ${FMT_LIB_DIR} OPTIONAL)
+  endif()
   install(FILES ${FMT_HEADERS} DESTINATION ${FMT_INC_DIR})
   install(FILES "${pkgconfig}" DESTINATION "${FMT_PKGCONFIG_DIR}")
 endif ()
