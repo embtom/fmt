@@ -13,7 +13,9 @@ treat_includes_as_system(gtest)
 set(TEST_MAIN_SRC test-main.cc gtest-extra.cc gtest-extra.h util.cc)
 add_library(test-main STATIC ${TEST_MAIN_SRC})
 target_compile_definitions(test-main PUBLIC
-  FMT_USE_FILE_DESCRIPTORS=$<BOOL:${HAVE_OPEN}>)
+  FMT_USE_FILE_DESCRIPTORS=$<BOOL:${HAVE_OPEN}>
+  GTEST_HAS_PTHREAD=1
+)
 target_link_libraries(test-main gmock gtest fmt)
 
 include(CheckCXXCompilerFlag)
