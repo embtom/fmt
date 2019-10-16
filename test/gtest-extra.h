@@ -9,7 +9,7 @@
 #define FMT_GTEST_EXTRA_H_
 
 #include <string>
-#include "gmock.h"
+#include <gmock/gmock.h>
 
 #include "fmt/core.h"
 

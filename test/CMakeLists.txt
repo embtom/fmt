@@ -1,56 +1,20 @@
-#------------------------------------------------------------------------------
-# Build the google test library
++include_directories(..)
 
-# We compile Google Test ourselves instead of using pre-compiled libraries.
-# See the Google Test FAQ "Why is it not recommended to install a
-# pre-compiled copy of Google Test (for example, into /usr/local)?"
-# at http://code.google.com/p/googletest/wiki/FAQ for more details.
-add_library(gmock STATIC
-  gmock-gtest-all.cc gmock/gmock.h gtest/gtest.h gtest/gtest-spi.h)
-target_compile_definitions(gmock PUBLIC GTEST_HAS_STD_WSTRING=1)
-target_include_directories(gmock SYSTEM PUBLIC . gmock gtest)
+# will include GTest
+add_subdirectory(/usr/src/googletest/googlemock 3rdparty/gmock EXCLUDE_FROM_ALL)
 
-find_package(Threads)
-if (Threads_FOUND)
-  target_link_libraries(gmock ${CMAKE_THREAD_LIBS_INIT})
-else ()
-  target_compile_definitions(gmock PUBLIC GTEST_HAS_PTHREAD=0)
-endif ()
-
-if (NOT SUPPORTS_VARIADIC_TEMPLATES)
-  target_compile_definitions(gmock PUBLIC GTEST_LANG_CXX11=0)
-endif ()
-
-if (MSVC)
-  # Workaround a bug in implementation of variadic templates in MSVC11.
-  target_compile_definitions(gmock PUBLIC _VARIADIC_MAX=10)
-  
-  # Disable MSVC warnings of _CRT_INSECURE_DEPRECATE functions.
-  target_compile_definitions(gmock PRIVATE _CRT_SECURE_NO_WARNINGS)
-  if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    # Disable MSVC warnings of POSIX functions.
-    target_compile_options(gmock PUBLIC -Wno-deprecated-declarations)
-  endif ()
-endif ()
-
-# GTest doesn't detect <tuple> with clang.
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  target_compile_definitions(gmock PUBLIC GTEST_USE_OWN_TR1_TUPLE=1)
-endif ()
-
-# Silence MSVC tr1 deprecation warning in gmock.
-target_compile_definitions(gmock
-  PUBLIC _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING=1)
-
-#------------------------------------------------------------------------------
-# Build the actual library tests
+macro(treat_includes_as_system target)
+	get_target_property(includes ${target} INTERFACE_INCLUDE_DIRECTORIES)
+	set_target_properties(${target} PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${includes}")
+endmacro()
+treat_includes_as_system(gmock)
+treat_includes_as_system(gtest)
 
 set(TEST_MAIN_SRC test-main.cc gtest-extra.cc gtest-extra.h util.cc)
 add_library(test-main STATIC ${TEST_MAIN_SRC})
 target_compile_definitions(test-main PUBLIC
   FMT_USE_FILE_DESCRIPTORS=$<BOOL:${HAVE_OPEN}>)
-target_include_directories(test-main SYSTEM PUBLIC gtest gmock)
-target_link_libraries(test-main gmock fmt)
+target_link_libraries(test-main gmock gtest fmt)
 
 include(CheckCXXCompilerFlag)
 
@@ -84,7 +48,6 @@ function(add_fmt_test name)
   if (FMT_PEDANTIC)
     target_compile_options(${name} PRIVATE ${PEDANTIC_COMPILE_FLAGS})
   endif ()
-  target_include_directories(${name} SYSTEM PUBLIC gtest gmock)
   add_test(NAME ${name} COMMAND ${name})
 endfunction()
 

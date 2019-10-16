@@ -17,7 +17,7 @@
 
 #include "test-assert.h"
 
-#include "gmock.h"
+#include <gmock/gmock.h>
 
 // Check if fmt/core.h compiles with windows.h included before it.
 #ifdef _WIN32

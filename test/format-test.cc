@@ -22,7 +22,7 @@
 
 #include "fmt/color.h"
 #include "fmt/format.h"
-#include "gmock.h"
+#include <gmock/gmock.h>
 #include "gtest-extra.h"
 #include "mock-allocator.h"
 #include "util.h"
