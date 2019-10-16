@@ -22,7 +22,7 @@
 #endif
 
 #include "fmt/compile.h"
-#include "gmock.h"
+#include <gmock/gmock.h>
 #include "gtest-extra.h"
 #include "mock-allocator.h"
 #include "util.h"

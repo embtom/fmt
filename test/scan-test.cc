@@ -8,7 +8,7 @@
 #include <time.h>
 #include <climits>
 
-#include "gmock.h"
+#include <gmock/gmock.h>
 #include "gtest-extra.h"
 #include "scan.h"
 

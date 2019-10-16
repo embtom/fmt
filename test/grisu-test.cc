@@ -6,7 +6,7 @@
 // For the license information refer to format.h.
 
 #include "fmt/format.h"
-#include "gtest.h"
+#include <gmock/gmock.h>
 
 static bool reported_skipped;
 

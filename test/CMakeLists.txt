@@ -1,4 +1,4 @@
-+include_directories(..)
+include_directories(..)
 
 # will include GTest
 add_subdirectory(/usr/src/googletest/googlemock 3rdparty/gmock EXCLUDE_FROM_ALL)

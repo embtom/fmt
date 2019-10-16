@@ -6,7 +6,7 @@
 // For the license information refer to format.h.
 
 #include "fmt/locale.h"
-#include "gmock.h"
+#include <gmock/gmock.h>
 
 #ifndef FMT_STATIC_THOUSANDS_SEPARATOR
 template <typename Char> struct numpunct : std::numpunct<Char> {
