@@ -196,17 +196,6 @@ if (FMT_SAFE_DURATION_CAST)
   target_compile_definitions(fmt PUBLIC FMT_SAFE_DURATION_CAST)
 endif()
 
-add_library(fmt-header-only INTERFACE)
-add_library(fmt::fmt-header-only ALIAS fmt-header-only)
-
-target_compile_definitions(fmt-header-only INTERFACE FMT_HEADER_ONLY=1)
-
-target_compile_features(fmt-header-only INTERFACE ${FMT_REQUIRED_FEATURES})
-
-target_include_directories(fmt-header-only INTERFACE
-  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-
 # Install targets.
 if (FMT_INSTALL)
   include(GNUInstallDirs)
@@ -219,9 +208,6 @@ if (FMT_INSTALL)
   set(targets_export_name fmt-targets)
 
   set (INSTALL_TARGETS fmt)
-  if (TARGET fmt-header-only)
-    set(INSTALL_TARGETS ${INSTALL_TARGETS} fmt-header-only)
-  endif ()
 
   set(FMT_LIB_DIR ${CMAKE_INSTALL_LIBDIR} CACHE STRING
       "Installation directory for libraries, relative to ${CMAKE_INSTALL_PREFIX}.")
