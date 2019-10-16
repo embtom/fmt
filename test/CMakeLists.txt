@@ -73,20 +73,7 @@ add_fmt_test(ranges-test)
 add_fmt_test(scan-test)
 
 if (HAVE_OPEN)
-  add_fmt_executable(posix-mock-test
-    posix-mock-test.cc ../src/format.cc ${TEST_MAIN_SRC})
-  target_include_directories(
-    posix-mock-test PRIVATE ${PROJECT_SOURCE_DIR}/include)
-  target_compile_definitions(posix-mock-test PRIVATE FMT_USE_FILE_DESCRIPTORS=1)
-  target_link_libraries(posix-mock-test gmock)
-  target_include_directories(posix-mock-test SYSTEM PUBLIC gtest gmock)
-  if (FMT_PEDANTIC)
-    target_compile_options(posix-mock-test PRIVATE ${PEDANTIC_COMPILE_FLAGS})
-  endif ()
-  if (HAVE_STRTOD_L)
-    target_compile_definitions(posix-mock-test PRIVATE FMT_LOCALE)
-  endif ()
-  add_test(NAME posix-mock-test COMMAND posix-mock-test)
+  add_fmt_test(posix-mock-test)
   add_fmt_test(posix-test)
 endif ()
 
