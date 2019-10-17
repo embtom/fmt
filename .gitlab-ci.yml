@@ -13,7 +13,7 @@ build_job:
     paths:
       - ./build_deb/  
   only:
-    - embtom-1.6.4
+    - embtom-6.0.0
 
 deploy_job:
   stage: deploy
