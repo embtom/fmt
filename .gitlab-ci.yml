@@ -24,6 +24,7 @@ deploy_job:
     - cp * /media/volume1/ci_projects/snapshot/fmtlib
     - reprepro -b /media/volume1/reprepo/ -A amd64 remove bionic libfmt-dev
     - reprepro -b /media/volume1/reprepo/ -A amd64 remove bionic libfmt-doc
+    - reprepro -b /media/volume1/reprepo/ -A source remove bionic fmtlib
     - reprepro --ignore=wrongdistribution -b /media/volume1/reprepo/ -V include bionic fmtlib_6.0.0_amd64.changes
   when: on_success
   only:
