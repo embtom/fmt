@@ -1,4 +1,4 @@
 # You must remove unused comment lines for the released package.
 version=3
 opts="dversionmangle=s/\+ds\d*$//, filenamemangle=s/(?:.*)?v?(\d[\d\.]*)\.tar\.gz/<project>-$1.tar.gz/" \
-    https://github.com/cppformat/cppformat/tags (?:.*/)?v?(\d[\d\.]*)\.tar\.gz
+    https://github.com/fmtlib/fmt/tags (?:.*/)?v?(\d[\d\.]*)\.tar\.gz
