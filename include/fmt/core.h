@@ -448,10 +448,22 @@ struct error_handler {
 /** String's character type. */
 template <typename S> using char_t = typename internal::char_t_impl<S>::type;
 
-// Parsing context consisting of a format string range being parsed and an
-// argument counter for automatic indexing.
+/**
+  Parsing context consisting of a format string range being parsed and an
+  argument counter for automatic indexing.
+
+  You can use one of the following type aliases for common character types:
+
+  +-----------------------+------------------------------+
+  | Type                  | Definition                   |
+  +=======================+==============================+
+  | format_parse_context  | basic_parse_context<char>    |
+  +-----------------------+------------------------------+
+  | wformat_parse_context | basic_parse_context<wchar_t> |
+  +-----------------------+------------------------------+
+ */
 template <typename Char, typename ErrorHandler = internal::error_handler>
-class basic_parse_context : private ErrorHandler {
+class basic_format_parse_context : private ErrorHandler {
  private:
   basic_string_view<Char> format_str_;
   int next_arg_id_;
@@ -460,8 +472,8 @@ class basic_parse_context : private ErrorHandler {
   using char_type = Char;
   using iterator = typename basic_string_view<Char>::iterator;
 
-  explicit FMT_CONSTEXPR basic_parse_context(basic_string_view<Char> format_str,
-                                             ErrorHandler eh = ErrorHandler())
+  explicit FMT_CONSTEXPR basic_format_parse_context(
+      basic_string_view<Char> format_str, ErrorHandler eh = ErrorHandler())
       : ErrorHandler(eh), format_str_(format_str), next_arg_id_(0) {}
 
   // Returns an iterator to the beginning of the format string range being
@@ -503,11 +515,14 @@ class basic_parse_context : private ErrorHandler {
   FMT_CONSTEXPR ErrorHandler error_handler() const { return *this; }
 };
 
-using format_parse_context = basic_parse_context<char>;
-using wformat_parse_context = basic_parse_context<wchar_t>;
+using format_parse_context = basic_format_parse_context<char>;
+using wformat_parse_context = basic_format_parse_context<wchar_t>;
 
-using parse_context FMT_DEPRECATED_ALIAS = basic_parse_context<char>;
-using wparse_context FMT_DEPRECATED_ALIAS = basic_parse_context<wchar_t>;
+template <typename Char, typename ErrorHandler = internal::error_handler>
+using basic_parse_context FMT_DEPRECATED_ALIAS =
+    basic_format_parse_context<Char, ErrorHandler>;
+using parse_context FMT_DEPRECATED_ALIAS = basic_format_parse_context<char>;
+using wparse_context FMT_DEPRECATED_ALIAS = basic_format_parse_context<wchar_t>;
 
 template <typename Context> class basic_format_arg;
 template <typename Context> class basic_format_args;
